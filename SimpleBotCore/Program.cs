@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace SimpleBotCore
 {
+    //validacao de commit
     public class Program
     {
         public static void Main(string[] args)
