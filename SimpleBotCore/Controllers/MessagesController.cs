@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using SimpleBotCore.Logic;
+using SimpleBotCore.Mongo;
 
 namespace SimpleBotCore.Controllers
 {
@@ -13,6 +14,8 @@ namespace SimpleBotCore.Controllers
     public class MessagesController : Controller
     {
         SimpleBotUser _bot = new SimpleBotUser();
+
+        Acesso _conexao = new Acesso();
 
         public MessagesController(SimpleBotUser bot)
         {
@@ -47,10 +50,14 @@ namespace SimpleBotCore.Controllers
 
             var message = new SimpleMessage(userFromId, userFromName, text);
 
+            //Armazenar msg no mongo
+            _conexao.InsereMensagemUsuario(message);
+
             string response = _bot.Reply(message);
 
             await ReplyUserAsync(activity, response);
         }
+
 
         // Responde mensagens usando o Bot Framework Connector
         async Task ReplyUserAsync(Activity message, string text)
